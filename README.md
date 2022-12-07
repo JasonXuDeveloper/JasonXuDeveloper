@@ -7,12 +7,5 @@
 - 喜欢编程
 - 喜欢数学
 - 喜欢动漫
-- 好きびしょうじょGAME
+- 好きびしょうじょゲーム
 - 大好きいざよいみくと中野にの
-
-### 开源项目的Star趋势  
-
-| [JEngine](https://github.com/JasonXuDeveloper/JEngine)       |
-| ------------------------------------------------------------ |
-| <img src="https://starchart.cc/JasonXuDeveloper/JEngine.svg"> |
-
