@@ -1,12 +1,12 @@
-![傑's github stats](https://github-readme-stats.vercel.app/api?username=JasonXuDeveloper&hide_title=false&hide_border=true&show_icons=true&include_all_commits=true&line_height=21&theme=dracula)
-![主要使用语言](https://github-readme-stats.vercel.app/api/top-langs/?username=JasonXuDeveloper&hide_title=false&hide_border=true&layout=compact&theme=dracula)
-![主要使用语言](https://github-profile-trophy.vercel.app/?username=JasonXuDeveloper&theme=flat&no-frame=true&margin-w=30)
+## 数据
 
-### 个人简介
+![](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jasonxudeveloper&theme=github)
+![](http://github-profile-summary-cards.vercel.app/api/cards/stats?username=jasonxudeveloper&theme=github)
+![](http://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=jasonxudeveloper&theme=github)
+![](http://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=jasonxudeveloper&theme=github)
+![](http://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=jasonxudeveloper&theme=github&utcOffset=11)
 
-- 喜欢编程
-- 喜欢数学
-- 喜欢动漫
-- 好きギャルゲーム
-- 大好きいざよいみくと中野にの
-- My lovely angel 綾瀬　最高です！！！
+## 人生
+- 编程
+- 数学
+- 动漫
