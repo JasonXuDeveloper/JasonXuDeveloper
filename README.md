@@ -15,6 +15,8 @@
   <br>
 
   <picture>
+    <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/star-growth-mobile-dark.svg">
+    <source media="(max-width: 600px)" srcset="./assets/star-growth-mobile-light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="./assets/star-growth-dark.svg">
     <img src="./assets/star-growth-light.svg" alt="Star growth of JEngine and Nino" width="100%">
   </picture>

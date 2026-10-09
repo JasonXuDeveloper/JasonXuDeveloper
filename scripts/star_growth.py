@@ -96,7 +96,7 @@ def month_end(month: str) -> date:
     return date(year, number, calendar.monthrange(year, number)[1])
 
 
-def coordinates(data: dict, name: str, start: date, end: date, top: int, bottom: int):
+def coordinates(data: dict, name: str, start: date, end: date, top: int, bottom: int, left=210, right=840):
     backfilled_on = date.fromisoformat(data["backfilled_at"])
     history = [
         (backfilled_on if month == data["backfilled_at"][:7] else month_end(month), count)
@@ -108,7 +108,7 @@ def coordinates(data: dict, name: str, start: date, end: date, top: int, bottom:
     duration = max(1, (end - start).days)
     points = []
     for day, count in history:
-        x = 210 + (day - start).days / duration * 630
+        x = left + (day - start).days / duration * (right - left)
         y = bottom - count / maximum * (bottom - top)
         points.append((round(x, 2), round(y, 2)))
     return points, history[-1][1]
@@ -163,10 +163,56 @@ def svg(data: dict, theme: str) -> str:
     return "\n".join(parts) + "\n"
 
 
+def mobile_svg(data: dict, theme: str) -> str:
+    dark = theme == "dark"
+    fg = "#e6edf3" if dark else "#24292f"
+    muted = "#8b949e" if dark else "#57606a"
+    grid = "#30363d" if dark else "#d0d7de"
+    colors = {"JEngine": "#bc8cff" if dark else "#8250df", "Nino": "#56d4dd" if dark else "#0969da"}
+    first_month = min(info["monthly"][0][0] for info in data["repos"].values())
+    start = date.fromisoformat(first_month + "-01")
+    end = max(date.fromisoformat(data["samples"][-1]["date"]), date.fromisoformat(data["backfilled_at"]))
+    duration = max(1, (end - start).days)
+
+    parts = [
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 252" role="img" aria-labelledby="title desc">',
+        '<title id="title">JEngine and Nino star growth</title>',
+        '<desc id="desc">Reconstructed monthly history from current stargazers, followed by daily star-count snapshots.</desc>',
+        '<style>@keyframes appear{from{opacity:.25}to{opacity:1}}',
+        '.trace{animation:appear 1.2s ease-out both}',
+        '@media(prefers-reduced-motion:reduce){.trace{animation:none}}</style>',
+        f'<text x="16" y="20" fill="{muted}" font-family="system-ui,sans-serif" font-size="10" letter-spacing="1.6">PROJECT GROWTH</text>',
+    ]
+    for name, top, bottom, label_y in (("JEngine", 70, 116, 55), ("Nino", 160, 206, 145)):
+        points, count = coordinates(data, name, start, end, top, bottom, left=16, right=344)
+        line = path(points)
+        area = f"{line} L{points[-1][0]},{bottom} L{points[0][0]},{bottom} Z"
+        color = colors[name]
+        parts.extend(
+            [
+                f'<text x="16" y="{label_y}" fill="{fg}" font-family="system-ui,sans-serif" font-size="17" font-weight="650">{escape(name)}</text>',
+                f'<text x="344" y="{label_y}" text-anchor="end" fill="{color}" font-family="system-ui,sans-serif" font-size="15" font-weight="600">{count:,} ★</text>',
+                f'<line x1="16" y1="{bottom}" x2="344" y2="{bottom}" stroke="{grid}" stroke-width="1"/>',
+                f'<path d="{area}" fill="{color}" fill-opacity=".10"/>',
+                f'<path class="trace" d="{line}" fill="none" stroke="{color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
+                f'<circle cx="{points[-1][0]}" cy="{points[-1][1]}" r="4" fill="{color}"/>',
+            ]
+        )
+    for year in range(start.year, end.year + 1, 2):
+        day = date(year, 1, 1)
+        if day < start:
+            continue
+        x = 16 + (day - start).days / duration * 328
+        parts.append(f'<text x="{x:.2f}" y="238" text-anchor="middle" fill="{muted}" font-family="system-ui,sans-serif" font-size="10">{year}</text>')
+    parts.append("</svg>")
+    return "\n".join(parts) + "\n"
+
+
 def render(data: dict):
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for theme in ("light", "dark"):
         (OUTPUT / f"star-growth-{theme}.svg").write_text(svg(data, theme))
+        (OUTPUT / f"star-growth-mobile-{theme}.svg").write_text(mobile_svg(data, theme))
 
 
 if __name__ == "__main__":
