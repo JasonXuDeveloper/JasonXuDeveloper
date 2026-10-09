@@ -4,7 +4,7 @@
     <img src="https://skillicons.dev/icons?i=cs,rust,ts,unity&amp;theme=light" alt="C#, Rust, TypeScript, and Unity" width="217" height="48">
   </picture>
 
-  <br><br>
+  <br>
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-rainbow.svg">
